@@ -1,0 +1,39 @@
+@mixin placeholder {
+	&::-webkit-input-placeholder {@content}
+	&:-moz-placeholder           {@content}
+	&::-moz-placeholder          {@content}
+	&:-ms-input-placeholder      {@content}
+}
+
+label.error{
+	color: red;
+	font-size: small;
+	font-weight: 100;
+	margin-top: 10px;
+}
+
+input.error, textarea.error, select.error{
+	border:1px solid red;
+	color: red;
+	background-color: #FFF;
+	&:focus{
+		box-shadow: 0 0 5px rgba(225, 0, 0, 0.7);
+		outline: 0 none;
+		border:0 none;
+	}
+	@include placeholder {
+		box-shadow: 0 0 5px rgba(225, 0, 0, 0.7);
+		outline: 0 none;
+		border:0 none;
+	}
+
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+    -moz-appearance:textfield;
+}

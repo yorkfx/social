@@ -1,0 +1,42 @@
+@import "vars";
+@import "compass";
+@import "susy";
+@import "foundation";
+// @import "rangeSlider";
+body{
+	background-color: red;
+}
+
+
+[data-tooltip]{
+	width: 18px;
+	height: 18px;
+	line-height: 18px;
+	@include border-radius(18px);
+	font-weight: bold;
+	color: white;
+	display: inline-block;
+	font-size: .82em;
+	text-align: center;
+	background-color: lighten(#95a0a8, 10);
+	cursor: default;
+}
+#descripcion_salon{
+	min-height: 160px;
+}
+
+#lst_caracteristicas{
+	input, label{
+		display: inline-block;
+		margin-bottom:1em;
+		font-weight: 200;
+		font-size: .9em;
+	}
+	input{
+		border:1px solid white;
+		width: 4%
+	}
+	label{
+		width: 28%
+	}
+}

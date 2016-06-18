@@ -1,0 +1,48 @@
+
+
+.media{
+	clear: both;
+	background-color: #FFF;
+	margin-bottom: 30px;
+	@include border-radius(8px);
+	@include clearfix;
+	padding: 4px;
+	margin-bottom: 2px;
+	.media-left{
+		img{@include border-radius(6px);}
+		width: 27%;
+		position: relative;
+		padding: 0;
+		span{
+			position: absolute;
+			right: 1px;
+			top: 3px;
+			background-color: red;
+			color: #FFF;
+			padding: 3px;
+		}
+		&:hover{
+			span{
+				&:before{
+					content: "Desde ";
+				}
+			}
+		}
+	}
+	.media-body{
+		width: 42%;
+		h3{
+			font-size: 1.3em;
+			line-height: 2em;
+			text-indent: 10px;
+		}
+		p{
+			margin: 10px;
+		}
+	}
+	.media-right{
+		line-height: 2.5em;
+		font-size: .9em;
+		font-weight: 100;
+	}
+}
