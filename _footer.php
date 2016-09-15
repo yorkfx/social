@@ -12,17 +12,17 @@
 				<div class="col-md-3">
 					<h5>Nosotros</h5>
 					<ul>
-						<li><a href="#">Ayuda</a></li>
-						<li><a href="#">Contacto</a></li>
-						<li><a href="#">Terminos</a></li>
-						<li><a href="#">Aviso Legal</a></li>
-						<li><a href="#">Aviso de privacidad</a></li>
+						<li><a href="info/ayuda.php">Ayuda</a></li>
+						<li><a href="info/contacto.php">Contacto</a></li>
+						<li><a href="info/terminos.php">Terminos</a></li>
+						<li><a href="info/aviso-legal.php">Aviso Legal</a></li>
+						<li><a href="info/aviso-privacidad.php">Aviso de privacidad</a></li>
 					</ul>
 				</div>
 				<div class="col-md-3">
 					<h5>Siguenos</h5>
 					<ul>
-						<li><a href="#">Facebook</a></li>
+						<li><a href="https://www.facebook.com/samia.com.mx">Facebook</a></li>
 						<li><a href="#">Twitter</a></li>
 						<li><a href="#">Google +</a></li>
 						<li><a href="#">Instangram</a></li>
@@ -33,7 +33,7 @@
 		</div>
 		<div id="lvl_3">
 			<div class="container">
-				<div class="col-md-9"> Copyright samia.com © 2014. Todos los derechos reservados </div>
+				<div class="col-md-9"> Copyright samia.com.mx © <?php echo date("Y");?>. Todos los derechos reservados </div>
 				<div class="col-md-3">iconos redes</div>
 			</div>
 		</div>
@@ -46,10 +46,11 @@
 	<script>window.jQuery || document.write('<script src="files/js/bootstrap.min.js"><\/script>')</script>
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
 
-	<script src="files/js/libs/bootstrap-slider.js"></script>
 	<script src="files/js/libs/bootstrap-rating.min.js"></script>
 	<script src="files/js/libs/jquery.lightbox-0.5.min.js"></script>
-	<script src="files/js/libs/jquery.tagsinput.min.js"></script>
+	<script src="files/js/libs/ion.rangeSlider.min.js"></script>
+	<script src="files/js/libs/bootstrap-datetimepicker.min.js"></script>
+
 	<script src="files/js/main.js"></script>
 
 	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -61,5 +62,6 @@
 		r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
 		ga('create','UA-XXXXX-X');ga('send','pageview');
 	</script>
+
 </body>
 </html>

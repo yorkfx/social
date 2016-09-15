@@ -37,3 +37,22 @@ input[type=number]::-webkit-outer-spin-button {
 input[type='number'] {
     -moz-appearance:textfield;
 }
+
+#salon_horarios_addTag,#salon_horarios_tag {
+	width: 100%;
+	display: block;
+	padding: 4px;
+}
+#salon_horarios_tagsinput{
+	span.tag{
+		width: 100%;
+		display: block;
+		span{
+			width: 100%;
+			margin: 2px 0;
+		}
+	}
+}
+#salon_pagos, #salon_pagos_tagsinput{
+	min-height: 120px !important;
+}

@@ -1,5 +1,69 @@
-	<?php include("_vars.php"); ?>
-	<?php include("_header.php"); ?>
+<?php require_once('../Connections/conectar.php'); ?>
+<?php include("_header.php"); ?>
+<?php include("_vars.php");?>
+<?php
+if (!function_exists("GetSQLValueString")) {
+function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
+{
+  if (PHP_VERSION < 6) {
+    $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+  }
+
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+  switch ($theType) {
+    case "text":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "long":
+    case "int":
+      $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+      break;
+    case "double":
+      $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+      break;
+    case "date":
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      break;
+    case "defined":
+      $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+      break;
+  }
+  return $theValue;
+}
+}
+
+$editFormAction = $_SERVER['PHP_SELF'];
+if (isset($_SERVER['QUERY_STRING'])) {
+  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "agregar_paquete")) {
+  $insertSQL = sprintf("INSERT INTO paquetes (id_salon, nom_paquete, dias, pre_persona, min_personas, tipo_evento, opciones_paquete) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['id_salon'], "int"),
+                       GetSQLValueString($_POST['nom_paquete'], "text"),
+                       GetSQLValueString($_POST['dias'], "text"),
+                       GetSQLValueString($_POST['pre_persona'], "text"),
+                       GetSQLValueString($_POST['min_personas'], "int"),
+                       GetSQLValueString($_POST['tipo_evento'], "int"),
+                       GetSQLValueString($_POST['opciones_paquete'], "text"));
+
+  mysql_select_db($database_conectar, $conectar);
+  $Result1 = mysql_query($insertSQL, $conectar) or die(mysql_error());
+}
+
+$colname_Recordset1 = "-1";
+if (isset($_SESSION['MM_UserGroup'])) {
+  $colname_Recordset1 = $_SESSION['MM_UserGroup'];
+}
+mysql_select_db($database_conectar, $conectar);
+$query_Recordset1 = sprintf("SELECT * FROM paquetes WHERE id_salon = %s", GetSQLValueString($colname_Recordset1, "int"));
+$Recordset1 = mysql_query($query_Recordset1, $conectar) or die(mysql_error());
+$row_Recordset1 = mysql_fetch_assoc($Recordset1);
+$totalRows_Recordset1 = mysql_num_rows($Recordset1);
+
+?>
+
 
 	<section class="row">
 		<div class="container">
@@ -14,111 +78,84 @@
 			</div>
 			<div class="col-md-9">
 				<h3>Paquetes</h3>
-				<div class="white" style="padding:10px">
+				<div class="white" style="padding:30px">
+				<!-- Inicia paquetes -->
 
-				<div class="col-md-4"> <!-- required for floating -->
-					<ul class="nav nav-tabs tabs-left">
-						<li class="active"><a href="#paquete_1" data-toggle="tab">Paquete 1</a></li>
-						<li><a href="#paquete_2" data-toggle="tab">Paquete 2</a></li>
-						<li><a href="#paquete_3" data-toggle="tab">Paquete 3</a></li>
-						<li><a href="#paquete_4" data-toggle="tab">Paquete 4</a></li>
-					</ul>
+<div class="panel-group" id="paquetes" role="tablist" aria-multiselectable="true">
+	<?php do { ?>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="pa_<?php echo $row_Recordset1['id']; ?>">
+			<h5 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#paquetes" href="#paquete_<?php echo $row_Recordset1['id']; ?>" aria-expanded="true" aria-controls="paquete_<?php echo $row_Recordset1['id']; ?>"><?php echo $row_Recordset1['nom_paquete']; ?> </a></h5>
+		</div>
+		<div id="paquete_<?php echo $row_Recordset1['id']; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="paquete_<?php echo $row_Recordset1['id']; ?>">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<h5>Dias</h5>
+						<p><i class="glyphicon glyphicon-calendar"></i> <?php echo $row_Recordset1['dias']; ?></p>
+						<h5>Precio por persona</h5>
+						<p><i class="glyphicon glyphicon-usd"></i> <?php echo $row_Recordset1['pre_persona']; ?></p>
+						<h5>Minimo de personas</h5>
+						<p><i class="glyphicon glyphicon-user"></i> <?php echo $row_Recordset1['min_personas']; ?></p>
+					</div>
+					<div class="col-md-6">
+						<h5>Incluye:</h5>
+						<?php echo preg_replace('/[.,]/', ' - ', $row_Recordset1['opciones_paquete']); ?>
+					</div>
+
 				</div>
-				<div class="col-md-8">
-				<div class="tab-content">
-					<div class="tab-pane active" id="paquete_1">
-						<h3>Paquete 1</h3>
-						<table class="table">
-							<tr>
-								<th>Dias</th>
-								<th>Precio por persona</th>
-								<th>Minimo Personas</th>
-							</tr>
-							<tr>
-								<td>Jueves y Domingos</td>
-								<td>$400</td>
-								<td>200</td>
-							</tr>
-						</table>
-						<h6>Incluye:</h6>
-						<ul>
-							<li>Comida 3 tiempos</li>
-							<li>Vallet parking</li>
-							<li>Inflable 3 hrs.</li>
-							<li>Lorem 4</li>
-							<li>Lorem 5</li>
-							<li>Lorem 6</li>
-							<li>Lorem 7</li>
-							<li>Lorem 8</li>
-							<li>Lorem 9</li>
-							<li>Lorem 9</li>
-							<li>Lorem 9</li>
-							<li>Lorem 10</li>
-						</ul>
-						<br>
-						<div class="col-md-6 col-md-offset-7">
-							<a href="#" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
-						<a href="#" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
-						</div>
-					</div>
-					<div class="tab-pane" id="paquete_2">
-						<h3>Paquete 2</h3>
-						ul>li{Lorem $}*10
-					</div>
-					<div class="tab-pane" id="paquete_3">
-						<h3>Paquete 3</h3>
-						ul>li{Lorem $}*10
-					</div>
-					<div class="tab-pane" id="paquete_4">
-						<h3>Paquete 4</h3>
-						ul>li{Lorem $}*10
-					</div>
-				</div>
-				</div>
+			</div>
+			<div class="panel-footer">
+				<a href="editar_paquete.php?id=<?php echo $row_Recordset1['id']; ?>" class="btn btn-success" style="margin: 0 0 0 540px"><i class="glyphicon glyphicon-pencil"></i> Editar</a>
+				<a href="eliminar_paquete.php?id=<?php echo $row_Recordset1['id']; ?>" class="btn btn-warning"><i class="glyphicon glyphicon-trash"></i> Eliminar</a>
+			</div>
+		</div>
+	</div>
+	<?php } while ($row_Recordset1 = mysql_fetch_assoc($Recordset1)); ?>
+
+
+</div>
 
 
 				</div>
 				<h3>Agregar Paquete</h3>
 				<div class="white" style="padding:20px">
-					<form action="" class="form-horizontal">
-						<div class="alert alert-info" role="alert"><strong>Limitado!</strong> Usted solo puede agregar 2 paquetes. Le recomendamos <a href="../planes.php" class="alert-link">cambiar de plan</a> </div>
-						<div class="alert alert-warning" role="alert"><strong>Algo falta!</strong> Revise que todos los datos este completados.</div>
-						<div class="alert alert-success" role="alert"><strong>Bien hecho!</strong> Su paquete se agrego su paquete correctamente.</div>
+					<form method="POST" action="<?php echo $editFormAction; ?>" class="form-horizontal" name="agregar_paquete" id="agregar_paquete">
 
+						<input type="hidden" id="id_salon" name="id_salon" value="<?php echo $_SESSION['MM_UserGroup']; ?>">
 						<div class="form-group">
-							<label for="" class="col-sm-3 col-md-offset-1 control-label">Nombre Paquete</label>
-							<div class="col-sm-7"><input type="text" class="form-control"></div>
+							<label for="nom_paquete	" class="col-sm-3 col-md-offset-1 control-label">Nombre Paquete</label>
+							<div class="col-sm-7"><input type="text" id="nom_paquete" name="nom_paquete" class="form-control" required></div>
 						</div>
 <!-- 						<a href="#" class="btn btn-default btn-sm pull-right" style="margin:0 64px 10px; display: inline-block;"><i class="fa fa-calendar"></i> Programar fecha</a><br> -->
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Tipo evento</label>
+							<label class="col-sm-4 control-label" for="tipo_evento">Tipo evento</label>
 							<div class="col-sm-8">
 								<div class="row">
 								<?php
 								foreach ( $TipoEvento as $tipo ) {
-									echo '<div class="col-md-4"><input type="radio" name="tipo_evento" value="'.$tipo['value'].'" id="'.$tipo['value'].'"> <label for="'.$tipo['value'].'"> '.$tipo['label'].'</label></div>';
+									echo '<div class="col-md-4"><input type="radio" name="tipo_evento" value="'.$tipo['label'].'" id="'.$tipo['value'].'"> <label for="'.$tipo['value'].'"> '.$tipo['label'].'</label></div>';
 								}
 								?>
-
 								</div>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="" class="col-sm-3 col-md-offset-1 control-label">Que dias</label>
-							<div class="col-sm-7"><input type="text" class="form-control" placeholder="Jueves y Domingos"></div>
+							<label for="dias" class="col-sm-3 col-md-offset-1 control-label">Que dias</label>
+							<div class="col-sm-7"><input type="text" name="dias" id="dias" class="form-control" placeholder="Jueves y Domingos" required></div>
 						</div>
 						<div class="form-group">
-							<label for="" class="col-sm-3 col-md-offset-1 control-label">Precio por persona</label>
-							<div class="col-sm-2"><input type="text" class="form-control" placeholder="$200"></div>
+							<label for="pre_persona	" class="col-sm-3 col-md-offset-1 control-label">Precio por persona</label>
+							<div class="col-sm-2"><input type="number" id="pre_persona" name="pre_persona" class="form-control" placeholder="$200" required></div>
 
-							<label for="" class="col-sm-3 control-label">Minimo de Personas</label>
-							<div class="col-sm-2"><input type="text" class="form-control" placeholder="50"></div>
+							<label for="min_personas" class="col-sm-3 control-label">Minimo de Personas</label>
+							<div class="col-sm-2"><input type="number" id="min_personas" name="min_personas" class="form-control" placeholder="50" required></div>
 						</div>
 						<div class="form-group">
-							<label for="" class="col-sm-4 control-label">Que incluye el paquete</label>
+							<label for="opciones_paquete" class="col-sm-4 control-label">Que incluye el paquete</label>
 							<div class="col-sm-7">
-								<textarea  rows="10" class="form-control tags" name="opciones_paquete" id="opciones_paquete"> </textarea>
+								<textarea  rows="10" class="form-control tags" name="opciones_paquete" id="opciones_paquete" required> </textarea>
 								<small class="help-block">Agrege con comas lo que incluye el paquete. Ejem: <em> Cocina, Inflable, etc.</em></small>
 							</div>
 						</div>
@@ -127,6 +164,7 @@
 								<button type="submit" class="btn btn-primary">Agregar Paquete</button>
 							</div>
 						</div>
+						<input type="hidden" name="MM_insert" value="agregar_paquete">
 
 
 					</form>
@@ -137,3 +175,6 @@
 	</section>
 
 	<?php include("_footer.php"); ?>
+<?php
+mysql_free_result($Recordset1);
+?>

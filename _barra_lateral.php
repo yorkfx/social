@@ -1,7 +1,7 @@
 <?php include("_vars.php");?>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 	<div class="panel panel-default">
-		<div class="list-group" role="tab" id="cajaBusqueda">
+<!-- 		<div class="list-group" role="tab" id="cajaBusqueda">
 		 <h4 class="list-group-item active" data-toggle="collapse" data-parent="#accordion" href="#collapseBusqueda" aria-expanded="true" aria-controls="collapseBusqueda">Busqueda</h4>
 		</div>
 
@@ -29,9 +29,9 @@
 			<div class="panel-body">
 				<input type="range">
 			</div>
-		</div>
+		</div> -->
 
-		<div class="list-group" role="tab" id="cajaServicios">
+		<!--<div class="list-group" role="tab" id="cajaServicios">
 		 <h4 class="list-group-item active" data-toggle="collapse" data-parent="#accordion" href="#collapseServicios" aria-expanded="true" aria-controls="collapseServicios">Servicios que ofrece </h4>
 		</div>
 		<div id="collapseServicios" class="panel-collapse collapse" role="tabpane2" aria-labelledby="cajaServicios">
@@ -42,7 +42,7 @@
 				}
 			?>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="list-group" role="tab" id="cajaTipo">
 		 <h4 class="list-group-item active" data-toggle="collapse" data-parent="#accordion" href="#collapseTipo" aria-expanded="true" aria-controls="collapseTipo">Tipo de Salon</h4>
@@ -52,7 +52,7 @@
 			<div class="list-group">
 				<?php
 				foreach ( $TipoSalon as $tipo ) {
-				    echo '<a href="listado.php?estado=', $tipo['value'], '" class="list-group-item">', $tipo['label']."</a>";
+				    echo '<a href="listado.php?tipo=', $tipo['value'], '" class="list-group-item">', $tipo['label']."</a>";
 				}
 				?>
 			</div>
@@ -62,7 +62,7 @@
 		 <h4 class="list-group-item active" data-toggle="collapse" data-parent="#accordion" href="#collapseEstados" aria-expanded="true" aria-controls="collapseEstados">Estados</h4>
 		</div>
 
-		<div id="collapseEstados" class="panel-collapse collapse" role="tabpane2" aria-labelledby="cajaEstados">
+		<div id="collapseEstados" class="panel-collapse collapse in" role="tabpane2" aria-labelledby="cajaEstados">
 			<div class="list-group">
 				<?php
 				foreach ( $EstadosDeMexico as $estado ) {

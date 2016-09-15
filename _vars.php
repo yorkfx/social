@@ -59,9 +59,9 @@ $EstadosDeMexico = array(
 	array('value' => 'BCN',	 'label' => 'Baja California Norte'),
 	array('value' => 'BCS',	 'label' => 'Baja California Sur'),
 	array('value' => 'CAM',	 'label' => 'Campeche'),
-	array('value' => 'CHIS',	 'label' => 'Chiapas '),
-	array('value' => 'CHIH',	 'label' => 'Chihuahua '),
-	array('value' => 'COAH',	 'label' => 'Coahuila '),
+	array('value' => 'CHA',	 'label' => 'Chiapas '),
+	array('value' => 'CHI',	 'label' => 'Chihuahua '),
+	array('value' => 'COA',	 'label' => 'Coahuila '),
 	array('value' => 'COL',	 'label' => 'Colima'),
 	array('value' => 'DF',	 'label' => 'Distrito Federal'),
 	array('value' => 'DGO',	 'label' => 'Durango'),
@@ -76,14 +76,14 @@ $EstadosDeMexico = array(
 	array('value' => 'NL',	 'label' => 'Nuevo León'),
 	array('value' => 'OAX',	 'label' => 'Oaxaca'),
 	array('value' => 'PUE',	 'label' => 'Puebla'),
-	array('value' => 'QRO',	 'label' => 'Querétaro'),
-	array('value' => 'QROO',	 'label' => 'Quintana Roo '),
+	array('value' => 'QUE',	 'label' => 'Querétaro'),
+	array('value' => 'QRO',	 'label' => 'Quintana Roo '),
 	array('value' => 'SLP',	 'label' => 'San Luis Potosí'),
 	array('value' => 'SIN',	 'label' => 'Sinaloa'),
 	array('value' => 'SON',	 'label' => 'Sonora'),
 	array('value' => 'TAB',	 'label' => 'Tabasco'),
-	array('value' => 'TAMPS', 'label' => 'Tamaulipas'),
-	array('value' => 'TLAX',	 'label' => 'Tlaxcala'),
+	array('value' => 'TAM', 	 'label' => 'Tamaulipas'),
+	array('value' => 'TLA',	 'label' => 'Tlaxcala'),
 	array('value' => 'VER',	 'label' => 'Veracruz'),
 	array('value' => 'YUC',	 'label' => 'Yucatan'),
 	array('value' => 'ZAC',	 'label' => 'Zacatecas'),
@@ -91,11 +91,11 @@ $EstadosDeMexico = array(
 
 
 $TipoSalon = array(
-	array('value' => 'JAR', 'label' => 'Jardín'),
-	array('value' => 'CAM', 'label' => 'Campestre'),
-	array('value' => 'INF', 'label' => 'Infantil'),
-	array('value' => 'CLA', 'label' => 'Clasico'),
-	array('value' => 'MOD', 'label' => 'Moderno'),
-	array('value' => 'CLU', 'label' => 'Club')
+	array('value' => 'jardin', 'label' => 'Jardín'),
+	array('value' => 'Campestre', 'label' => 'Campestre'),
+	array('value' => 'Infantil', 'label' => 'Infantil'),
+	array('value' => 'clasico', 'label' => 'Clasico'),
+	array('value' => 'moderno', 'label' => 'Moderno'),
+	array('value' => 'club', 'label' => 'Club')
 );
 ?>

@@ -42,12 +42,42 @@
 	<script>window.jQuery || document.write('<script src="../files/js/jquery.min.js"><\/script>')</script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 	<script>window.jQuery || document.write('<script src="../files/js/bootstrap.min.js"><\/script>')</script>
+	<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
 
 
 	<script src="../files/js/libs/jquery.tagsinput.min.js"></script>
 	<script src="../files/js/libs/ion.rangeSlider.min.js"></script>
 	<script src="../files/js/libs/jquery.lightbox-0.5.min.js"></script>
 	<script src="../files/js/main.js"></script>
+	
+<script>
+
+$(document).ready(function() {
+
+    jQuery.extend(jQuery.validator.messages, {
+        required: "Este campo es obligatorio.",
+        remote: "Por favor, rellena este campo.",
+        email: "Por favor, escribe una dirección de correo válida",
+        url: "Por favor, escribe una URL válida.",
+        date: "Por favor, escribe una fecha válida.",
+        dateISO: "Por favor, escribe una fecha (ISO) válida.",
+        number: "Por favor, escribe un número entero válido.",
+        digits: "Por favor, escribe sólo dígitos.",
+        creditcard: "Por favor, escribe un número de tarjeta válido.",
+        equalTo: "No coninciden las contraseñas.",
+        accept: "Por favor, escribe un valor con una extensión aceptada.",
+        maxlength: jQuery.validator.format("Por favor, no escribas más de {0} caracteres."),
+        minlength: jQuery.validator.format("Debe tener al menos {0} caracteres."),
+        rangelength: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1} caracteres."),
+        range: jQuery.validator.format("Por favor, escribe un valor entre {0} y {1}."),
+        max: jQuery.validator.format("Por favor, escribe un valor menor o igual a {0}."),
+        min: jQuery.validator.format("Por favor, escribe un valor mayor o igual a {0}.")
+    });
+});
+		$("#agregar_paquete").validate();
+
+	</script>
+
 	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 	<script>
 		(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=

@@ -1,0 +1,1 @@
+﻿<?xml version="1.0" encoding="utf-8" ?><info>	<infoitem key="UD_Recordset1" value="name:id;datatype:int,name:id_salon;datatype:int,name:fecha;datatype:date,name:nom_paquete;datatype:string,name:dias;datatype:string,name:pre_persona;datatype:string,name:min_personas;datatype:int,name:tipo_evento;datatype:blob,name:opciones_paquete;datatype:blob" /></info>

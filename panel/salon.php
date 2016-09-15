@@ -31,6 +31,56 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
+$editFormAction = $_SERVER['PHP_SELF'];
+if (isset($_SERVER['QUERY_STRING'])) {
+  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
+}
+
+if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon")) {
+  $insertSQL = sprintf("INSERT INTO salones (id_cliente, fecharegistro, nombre_salon, telefono1, telefono2, tipo, a_pagos, capacidad, precios, calle, colonia, numero, estado, municipio, lat, lng, servicios, url_web, url_video, horarios, descripcion) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       GetSQLValueString($_POST['id_cliente'], "int"),
+                       GetSQLValueString($_POST['salon_fecha'], "date"),
+                       GetSQLValueString($_POST['salon_nombre'], "text"),
+                       GetSQLValueString($_POST['salon_tel1'], "text"),
+                       GetSQLValueString($_POST['salon_tel2'], "text"),
+                       GetSQLValueString($_POST['salon_tipo'], "text"),
+                       GetSQLValueString($_POST['salon_pagos'], "text"),
+                       GetSQLValueString($_POST['salon_capacidad'], "text"),
+                       GetSQLValueString($_POST['salon_precios'], "text"),
+                       GetSQLValueString($_POST['salon_calle'], "text"),
+                       GetSQLValueString($_POST['salon_colonia'], "text"),
+                       GetSQLValueString($_POST['salon_num'], "text"),
+                       GetSQLValueString($_POST['salon_estado'], "text"),
+                       GetSQLValueString($_POST['salon_municipio'], "text"),
+                       GetSQLValueString($_POST['latitud'], "double"),
+                       GetSQLValueString($_POST['longitud'], "double"),
+                       GetSQLValueString($_POST['salon_servicios'], "text"),
+                       GetSQLValueString($_POST['salon_web'], "text"),
+                       GetSQLValueString($_POST['salon_video'], "text"),
+                       GetSQLValueString($_POST['salon_horarios'], "text"),
+                       GetSQLValueString($_POST['salon_descripcion'], "text"));
+
+  mysql_select_db($database_conectar, $conectar);
+  $Result1 = mysql_query($insertSQL, $conectar) or die(mysql_error());
+
+  //Crear Directorio para Galeria de Imagenes
+	$nombre_carpeta = '../files/fotos/'.$_POST["id_cliente"].'';
+
+	if(!is_dir($nombre_carpeta)){
+		@mkdir($nombre_carpeta, 0700);
+	}
+	else{
+		echo "Ya existe ese directorio\n";
+	}
+
+  $insertGoTo = "galeria.php";
+  if (isset($_SERVER['QUERY_STRING'])) {
+    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+    $insertGoTo .= $_SERVER['QUERY_STRING'];
+  }
+  header(sprintf("Location: %s", $insertGoTo));
+}
+
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "")
 {
@@ -62,44 +112,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
 }
 }
 
-$editFormAction = $_SERVER['PHP_SELF'];
-if (isset($_SERVER['QUERY_STRING'])) {
-  $editFormAction .= "?" . htmlentities($_SERVER['QUERY_STRING']);
-}
 
-if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon")) {
-  $insertSQL = sprintf("INSERT INTO salones (id_cliente, nombre_salon, telefono1, telefono2, tipo, a_pagos, capacidad, precios, calle, colonia, numero, estado, municpio, lat, lng, servicios, url_web, url_video, horarios, descripcion) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['id_cliente'], "int"),
-                       GetSQLValueString($_POST['salon_nombre'], "text"),
-                       GetSQLValueString($_POST['salon_tel1'], "text"),
-                       GetSQLValueString($_POST['salon_tel2'], "text"),
-                       GetSQLValueString($_POST['salon_tipo'], "int"),
-                       GetSQLValueString(isset($_POST['pagos[]']) ? "true" : "", "defined","1","0"),
-                       GetSQLValueString($_POST['salon_capacidad'], "text"),
-                       GetSQLValueString($_POST['salon_precios'], "double"),
-                       GetSQLValueString($_POST['salon_calle'], "text"),
-                       GetSQLValueString($_POST['salon_colonia'], "text"),
-                       GetSQLValueString($_POST['salon_num'], "text"),
-                       GetSQLValueString($_POST['salon_estado'], "int"),
-                       GetSQLValueString($_POST['salon_municipio'], "int"),
-                       GetSQLValueString($_POST['latitud'], "double"),
-                       GetSQLValueString($_POST['longitud'], "double"),
-                       GetSQLValueString($_POST['salon_servicios'], "text"),
-                       GetSQLValueString($_POST['salon_web'], "text"),
-                       GetSQLValueString($_POST['salon_video'], "text"),
-                       GetSQLValueString($_POST['horarios[]'], "text"),
-                       GetSQLValueString($_POST['salon_descripcion'], "text"));
-
-  mysql_select_db($database_conectar, $conectar);
-  $Result1 = mysql_query($insertSQL, $conectar) or die(mysql_error());
-
-  $insertGoTo = "galeria.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
-  }
-  header(sprintf("Location: %s", $insertGoTo));
-}
 ?>
 <?php include("_header.php"); ?>
 <?php include("_vars.php"); ?>
@@ -119,16 +132,16 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon"
 			<div class="col-md-9">
 				<div class="white" style="padding:20px">
 				<h5>Agregar Salon</h5>
-					<form class="form-horizontal" id="form_agregar_salon" name="form_agregar_salon" method="POST" action="<?php echo $editFormAction; ?>">
+					<form action="<?php echo $editFormAction; ?>" class="form-horizontal" id="form_agregar_salon" name="form_agregar_salon" method="POST">
 						<fieldset>
 							<legend>Generales</legend>
 						</fieldset>
-						<input type="hidden" id="salon_fecha" name="salon_fecha" value="<?php echo date("d-m-Y"); ?>">
+						<input type="hidden" id="salon_fecha" name="salon_fecha" value="<?php echo date("Y-m-d"); ?>">
 						<input type="hidden" id="salon_plan" name="salon_plan" value="<?php $plan = "F"; echo $plan; ?>">
 						<input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $_SESSION['MM_UserGroup']; ?>">
 						<div class="form-group">
 							<label for="salon_nombre" class="col-sm-4 control-label">Nombre Salon</label>
-							<div class="col-sm-8"><input type="text" id="salon_nombre" name="salon_nombre" class="form-control" placeholder="Salon Campestre la Cascada" required></div>
+							<div class="col-sm-8"><input type="text" id="salon_nombre" name="salon_nombre" class="form-control" required></div>
 						</div>
 						<div class="form-group">
 							<label for="salon_web" class="col-sm-4 control-label">Sitio Web</label>
@@ -138,8 +151,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon"
 							<label for="" class="col-sm-4 control-label">Telefono(s) *</label>
 							<div class="col-sm-8">
 								<div class="row">
-									<div class="col-xs-6"><input type="tel" id="salon_tel1" name="salon_tel1" class="form-control" placeholder="Telefono" required></div>
-									<div class="col-xs-6"><input type="tel" id="salon_tel2" name="salon_tel2" class="form-control" placeholder="Telefono (Opcional)"></div>
+									<div class="col-xs-6"><input type="tel" id="salon_tel1" name="salon_tel1" class="form-control" required></div>
+									<div class="col-xs-6"><input type="tel" id="salon_tel2" name="salon_tel2" class="form-control"></div>
 								</div>
 							</div>
 						</div>
@@ -152,22 +165,22 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon"
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Tipo Salon</label>
 							<div class="col-sm-8">
-								<div class="col-md-4"><input type="radio" name="salon_tipo" value="JAR" id="JAR" required> <label for="JAR"> Jardín</label></div>
-								<div class="col-md-4"><input type="radio" name="salon_tipo" value="CAM" id="CAM" required> <label for="CAM"> Campestre</label></div>
-								<div class="col-md-4"><input type="radio" name="salon_tipo" value="INF" id="INF" required> <label for="INF"> Infantil</label></div>
-								<div class="col-md-4"><input type="radio" name="salon_tipo" value="CLA" id="CLA" required> <label for="CLA"> Clasico</label></div>
-								<div class="col-md-4"><input type="radio" name="salon_tipo" value="MOD" id="MOD" required> <label for="MOD"> Moderno</label></div>
-								<div class="col-md-4"><input type="radio" name="salon_tipo" value="CLU" id="CLU" required> <label for="CLU"> Moderno</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Clasico" id="Clasico" required> <label for="Clasico"> Clasico</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Infantil" id="Infantil" required> <label for="Infantil"> Infantil</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Campestre" id="Campestre" required> <label for="Campestre"> Campestre</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Jardin" id="Jardin" required> <label for="Jardin"> Jardín</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Moderno" id="Moderno" required> <label for="Moderno"> Moderno</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Club" id="Club" required> <label for="Club"> Club</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Auditorio" id="Auditorio" required> <label for="Auditorio"> Auditorio</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Lounge" id="Lounge" required> <label for="Lounge"> Lounge</label></div>
+								<div class="col-md-4"><input type="radio" name="salon_tipo" value="Hacienda" id="Hacienda" required> <label for="Hacienda"> Hacienda</label></div>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="" class="col-sm-4 control-label">Acepta Pagos con:</label>
+							<label for="salon_pagos" class="col-sm-4 control-label">Acepta Pagos con:</label>
 							<div class="col-sm-8">
-								<div class="row">
-									<div class="col-md-6"><input type="checkbox" name="pagos[]" id="pago_efec" required value="Efectivo"> <label for="pago_efec">Efectivo</label></div>
-									<div class="col-md-6"><input type="checkbox" name="pagos[]" id="pago_tarj" required value="Tarjeta"> <label for="pago_tarj">Tarjeta</label></div>
-									<div class="col-md-6"><input type="checkbox" name="pagos[]" id="pago_tran" required value="Transferencia"> <label for="pago_tran">Transferencia</label></div>
-									<div class="col-md-6"><input type="checkbox" name="pagos[]" id="pago_cheq" required value="Cheque"> <label for="pago_cheq">Cheque</label></div>
+								<div class="col-xs-12">
+									<textarea name="salon_pagos" id="salon_pagos" class="form-control" required></textarea>
 								</div>
 							</div>
 						</div>
@@ -190,25 +203,12 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon"
 						<div class="form-group">
 							<label for="salon_horarios" class="col-sm-4 control-label">Horarios</label>
 							<div class="col-sm-8">
-								<div class="col-xs-6"><input type="text" class="form-control" name="horarios[]" value="Lunes a Viernes" disabled></div>
-								<div class="col-xs-3"><input type="time" class="form-control input-time" name="horarios[]" placeholder="12:00"></div>
-								<div class="col-xs-3"><input type="time" class="form-control input-time" name="horarios[]" placeholder="12:00"></div>
+								<div class="col-xs-12">
+									<textarea name="salon_horarios" id="salon_horarios" class="form-control" cols="30" rows="5" placeholder="Lunes a Viernes 14:00 a 18:00 hrs", required></textarea>
+								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-sm-8 col-md-offset-4">
-								<div class="col-xs-6"><input type="text" class="form-control" name="horarios[]" value="Sabados" disabled></div>
-								<div class="col-xs-3"><input type="time" class="form-control input-time" name="horarios[]" placeholder="12:00"></div>
-								<div class="col-xs-3"><input type="time" class="form-control input-time" name="horarios[]" placeholder="12:00"></div>
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-sm-8 col-md-offset-4">
-								<div class="col-xs-6"><input type="text" class="form-control" name="horarios[]" value="Domingos" disabled></div>
-								<div class="col-xs-3"><input type="time" class="form-control input-time" name="horarios[]" placeholder="12:00"></div>
-								<div class="col-xs-3"><input type="time" class="form-control input-time" name="horarios[]" placeholder="12:00"></div>
-							</div>
-						</div>
+
 						<fieldset>
 							<legend>Ubicación</legend>
 
@@ -229,7 +229,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon"
 								</div>
 									<label for="salon_cp" class="col-sm-2 control-label">Codigo Postal</label>
 								<div class="col-sm-4">
-									<input type="number" id="salon_cp" name="salon_cp" class="form-control" placeholder="00000" max="5" required>
+									<input type="number" id="salon_cp" name="salon_cp" class="form-control" placeholder="00000" required>
 								</div>
 								<br>
 								<br>
@@ -336,11 +336,11 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form_agregar_salon"
 	<script>window.jQuery || document.write('<script src="../files/js/bootstrap.min.js"><\/script>')</script>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-	<script src="js/mapaubicacion.js"></script>
+
 	<script src="js/municipios.js"></script>
+	<script src="js/mapaubicacion.js"></script>
 	<script src="../files/js/libs/jquery.tagsinput.min.js"></script>
 	<script src="../files/js/libs/ion.rangeSlider.min.js"></script>
-	<script src="../files/js/libs/jquery.timepicker.min.js"></script>
 
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
 	<script>
@@ -366,8 +366,20 @@ $(document).ready(function() {
 	});
 
 	$('#salon_servicios').tagsInput({
-		   'width':'486px',
+		'width':'486px',
+		'height': 'auto'
 	});
+
+	$('#salon_horarios').tagsInput({
+		'width':'470px',
+		'height': 'auto',
+		'defaultText':'Agregar horarios'
+	});
+
+	$('#salon_pagos').tagsInput({
+		'width':'470px'
+	});
+	$('#salon_pagos').importTags('Efectivo,Tarjeta,Transferencia, Cheque');
 
     jQuery.extend(jQuery.validator.messages, {
         required: "Este campo es obligatorio.",
@@ -389,12 +401,6 @@ $(document).ready(function() {
         min: jQuery.validator.format("Por favor, escribe un valor mayor o igual a {0}.")
     });
 
-	$('.input-time').timepicker({
-		'minTime': '12:00am',
-		'maxTime': '12:00pm',
-		'timeFormat': 'H:i a',
-		'step': 30
-	});
 
 
 });

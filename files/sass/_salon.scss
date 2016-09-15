@@ -7,9 +7,23 @@
 	}
 }
 
+
+@mixin breakpoint($point) {
+    @if $point == big {
+        @media screen and (max-width: 1600px){@content;}
+    }
+    @else if $point == medium {
+        @media screen and (max-width: 900px){@content;}
+    }
+    @else if $point == small {
+        @media screen and (max-width: 600px){@content;}
+    }
+}
+
+
 section{
 	&#salon-header{
-		min-height: 450px;
+		height: 450px;
 		background-repeat: repeat-x;
 		background-position: left center;
 		background-repeat: repeat-x;
@@ -19,13 +33,20 @@ section{
 		color: #fff;
 		text-shadow: 2px 2px 2px rgba(0,0,0,.7);
 		@include transition (all 0.4s ease);
-		@include background-size(auto 450px);
+		@include background-size(cover);
+		@include breakpoint(medium){
+			height: 380px;
+		}
+		@include breakpoint(small){
+			height: 300px;
+		}
 		&:hover{
-			min-height: 450px;
 			background-position: -40px auto;
-			@include background-size(auto 450px);
+			@include background-size(cover);
 			animation: animatedBackground 10s linear infinite;
-			.col-md-9, .col-md-3{height: 400px; }
+			.col-md-9, .col-md-3{
+				height: 400px;
+			}
 			address, .calificacion ,h3{
 				font-size: 0;
 			}
@@ -270,6 +291,7 @@ section{
 		float: left;
 		width: 35%;
 		border-right:1px solid #ddd;
+		padding: 0;
 		div{
 			padding: 0;
 			height: 138px;
@@ -289,12 +311,15 @@ section{
 			}
 		}
 	}
-	.list_services{
+	div.list_services{
 		float: left;
 		width: 65%;
+		padding: 0 !important;
+		margin: 0;
 		ul{
 			margin: 0;
-			width: 100%;
+			padding: 0;
+			width: 90%;
 			li{
 				float: left;
 				text-indent: 20px;
@@ -312,5 +337,77 @@ section{
 	h4{
 		text-align: center;
 	}
+}
+
+
+.btn_cotiza{
+	border:.5px solid darken(#ddd, 10);
+	color: darken(#ddd, 20);
+	height:66px;
+	float:right;
+	text-align: center;
+	margin: 3px;
+	padding: 8px;
+	@include transition (all 0.4s ease-in-out);
+	@include border-radius(6px);
+	@include opacity(.8);
+	i{
+		@include transition (all 0.4s ease-in-out);
+		font-size: 2em;
+		color: rgba(0,0,0,.2);
+	}
+	&:hover{
+		background-color: #FFF;
+		color: #444;
+		@include opacity(1);
+		text-decoration: none;
+		i{
+		color: rgba(255,0,0,1);
+		}
+	}
+}
+#showmap{
+	border:1px solid white;
+	position: relative;
+	@include clearfix;
+	@include border-radius(8px);
+	button{
+		position: absolute;
+		left: 42%;
+		bottom: 20px;
+		z-index: 1000;
+	}
+}
+
+.lst_servicios{
+	margin: 0;
+	padding: 0;
+	display:block;
+	height:auto;
+	li{
+		font-size: .95em;
+		font-weight: 100;
+		list-style: none;
+		border-bottom:1px solid #ddd;
+		float: left;
+		line-height: 2.8em;
+		background-color: #fff;
+		@include breakpoint(big){
+			width: 33.33333%;
+		}
+		@include breakpoint(medium){
+			width:49%;
+		}
+		@include breakpoint(small){
+			width:100%;
+		}
+		i{
+			font-size: 1.4em;
+			line-height: 1.8em;
+			margin: 0 6px 0 0;
+		}
+	}
+
+
 }
 

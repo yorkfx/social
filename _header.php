@@ -7,7 +7,7 @@
     <head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Social</title>
+		<title>Salones de Fiesta - Samia.com.mx</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 		<link rel="stylesheet" href="files/css/bootstrap.min.css">
@@ -36,6 +36,7 @@
 		</div>
 		<div id="menutop" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
+				<li><a href="index.php">Inicio</a></li>
 				<li><a href="#">Mejor Precio</a></li>
 				<li><a href="#">Mejor Valorado</a></li>
 				<li><a href="#">Capacidad</a></li>
@@ -44,7 +45,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<?php
 						foreach ( $TipoSalon as $tipo ) {
-						    echo '<li><a href="listado.php?estado=', $tipo['value'], '">', $tipo['label']."</a></li>";
+						    echo '<li><a href="listado.php?tipo=', $tipo['value'], '">', $tipo['label']."</a></li>";
 						}
 						?>
 					</ul>

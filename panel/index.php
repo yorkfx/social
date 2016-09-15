@@ -1,6 +1,5 @@
-
-	<?php include("_header.php"); ?>
-
+<?php include("_header.php"); ?>
+<?php include("_vars.php"); ?>
 	<section class="row">
 		<div class="container">
 			<div class="col-md-3" id="barra-lateral">

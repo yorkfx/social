@@ -5,8 +5,9 @@ function hideLayer(ObHide)
 }
 
 
-
 $(document).ready(function() {
+
+
 
     jQuery.extend(jQuery.validator.messages, {
         required: "Este campo es obligatorio.",
@@ -44,12 +45,12 @@ $(document).ready(function() {
 });
 
 	//Carga las primeras 5 imagenes
-	$('#gallery > div > .thumbnail:gt(5)').css('display','none');
+	// $('#gallery > div > .thumbnail:gt(5)').css('display','none');
 
-    $('#show_more_images').click(function() {
-      $('#gallery > div > .thumbnail').css('display','block');
-      $(this).hide(100);
-    });
+ //    $('#show_more_images').click(function() {
+ //      $('#gallery > div > .thumbnail').css('display','block');
+ //      $(this).hide(100);
+ //    });
 	//lightbox Galeria
  	var $lightbox = $('#lightbox');
 

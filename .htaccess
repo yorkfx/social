@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^([^/]*)\.html$ /listado.php?estado=$1 [L]
+RewriteRule ^([^/]*)\.html$ /listado.php?tipo=$1 [L]
+RewriteRule ^salon/([^/]*)\.html$ /salon/index.php?id=$1 [L]
